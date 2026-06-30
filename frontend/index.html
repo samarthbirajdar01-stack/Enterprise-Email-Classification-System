@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Enterprise Email Classification System</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div class="wrapper">
+
+    <h1>Enterprise Email Classification System</h1>
+
+    <div class="main">
+
+        <div class="left">
+
+            <h2>Create Ticket</h2>
+
+            <form id="ticketForm">
+
+                <input type="text" id="name" placeholder="Enter Name" required>
+
+                <input type="email" id="email" placeholder="Enter Email" required>
+
+                <input type="text" id="subject" placeholder="Subject" required>
+
+                <textarea id="description" placeholder="Describe your issue" required></textarea>
+
+                <button type="submit">
+
+                    Submit Ticket
+
+                </button>
+
+            </form>
+
+            <div id="result"></div>
+
+        </div>
+
+        <div class="right">
+
+            <h2>Recent Tickets</h2>
+
+            <div id="ticketList">
+
+            Loading...
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
