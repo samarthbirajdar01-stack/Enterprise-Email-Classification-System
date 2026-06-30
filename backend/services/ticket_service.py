@@ -1,4 +1,6 @@
 from database.db import get_connection
+from services.ai_service import classify_ticket
+
 
 def create_ticket(name, email, subject, description):
 
@@ -26,6 +28,17 @@ def create_ticket(name, email, subject, description):
         conn.commit()
         user_id = cursor.lastrowid
 
+
+    # ---------- AI Classification ----------
+    ai_result = classify_ticket(subject, description)
+
+    category = ai_result["category"]
+    priority = ai_result["priority"]
+    summary = ai_result["summary"]
+    confidence = ai_result["confidence"]
+    # ---------------------------------------
+
+
     cursor.execute("SELECT COUNT(*) FROM tickets")
     count = cursor.fetchone()[0] + 1
 
@@ -34,15 +47,20 @@ def create_ticket(name, email, subject, description):
     cursor.execute(
         """
         INSERT INTO tickets
-        (ticket_number,user_id,subject,description,status)
+        (ticket_number,user_id,subject,description,
+        category,priority,ai_summary,confidence_score,status)
 
-        VALUES(%s,%s,%s,%s,'Open')
+        VALUES(%s,%s,%s,%s,%s,%s,%s,%s,'Open')
         """,
         (
             ticket_number,
             user_id,
             subject,
-            description
+            description,
+            category,
+            priority,
+            summary,
+            confidence
         )
     )
 
