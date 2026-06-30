@@ -1,8 +1,13 @@
 from flask import Blueprint, request, jsonify
 from services.ticket_service import create_ticket
+from database.db import get_connection
 
 ticket_bp = Blueprint("ticket_bp", __name__)
 
+
+# -----------------------------
+# Create Ticket
+# -----------------------------
 @ticket_bp.route("/api/tickets", methods=["POST"])
 def add_ticket():
 
@@ -20,17 +25,58 @@ def add_ticket():
         "ticket_number": ticket_number
     })
 
+
+# -----------------------------
+# Get All Tickets
+# -----------------------------
 @ticket_bp.route("/api/tickets", methods=["GET"])
 def get_tickets():
-    from database.db import get_connection
 
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
 
-    cursor.execute("SELECT * FROM tickets")
+    cursor.execute("SELECT * FROM tickets ORDER BY id DESC")
+
     tickets = cursor.fetchall()
 
     cursor.close()
     conn.close()
 
-    return {"tickets": tickets}
+    return jsonify({
+        "tickets": tickets
+    })
+
+
+# -----------------------------
+# Update Ticket
+# -----------------------------
+@ticket_bp.route("/api/tickets/<int:ticket_id>", methods=["PUT"])
+def update_ticket(ticket_id):
+
+    data = request.get_json()
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        """
+        UPDATE tickets
+        SET status=%s,
+            resolution=%s
+        WHERE id=%s
+        """,
+        (
+            data["status"],
+            data["resolution"],
+            ticket_id
+        )
+    )
+
+    conn.commit()
+
+    cursor.close()
+    conn.close()
+
+    return jsonify({
+        "message": "Ticket Updated Successfully"
+    })
