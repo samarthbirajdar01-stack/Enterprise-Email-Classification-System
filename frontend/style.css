@@ -112,3 +112,57 @@ button:hover{
     border-radius:15px;
     font-size:13px;
 }
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    background:white;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+
+}
+
+th{
+
+    background:#2563eb;
+
+    color:white;
+
+    padding:15px;
+
+}
+
+td{
+
+    padding:12px;
+
+    border-bottom:1px solid #ddd;
+
+    text-align:center;
+
+}
+
+td button{
+
+    background:#2563eb;
+
+    color:white;
+
+    border:none;
+
+    padding:8px 15px;
+
+    border-radius:6px;
+
+    cursor:pointer;
+
+}
+
+td button:hover{
+
+    background:#1d4ed8;
+
+}
